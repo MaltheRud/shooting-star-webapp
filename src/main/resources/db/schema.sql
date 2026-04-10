@@ -1,7 +1,6 @@
 create database if not exists wishlist;
 use wishlist;
 
-drop table if exists wish_wishlist;
 drop table if exists wish;
 drop table if exists wishlist; 
 drop table if exists users;
