@@ -8,7 +8,7 @@ drop table if exists users;
 
 create table users(
 user_id int auto_increment primary key,
-username varchar(50) not null,
+username varchar(50) not null unique,
 password varchar(255) not null,
 name varchar(50) not null,
 email varchar(50) unique
