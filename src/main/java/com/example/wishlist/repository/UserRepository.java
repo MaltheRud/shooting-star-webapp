@@ -14,13 +14,14 @@ public class UserRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    /** Create User
-     * Inserting User object information to SQL database
+    /**Create User
+     * Inserts User object into User table
      * @param user
+     * @return row affected ('1' for success, '0' for no changes)
      */
-    public void createUser(User user){
+    public int createUser(User user){
         String sql = "INSERT IGNORE INTO users (username, password, name, email) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql,
+        return jdbcTemplate.update(sql,
                 user.getUsername(),
                 user.getPassword(),
                 user.getName(),
@@ -49,7 +50,7 @@ public class UserRepository {
      * Getting User by ID
      * @return single user object from SQL query
      */
-    public User getUserByiD(int id){
+    public User getUserById(int id){
         String sql = "SELECT * FROM users WHERE user_id = ?";
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->{
             User user = new User();
