@@ -9,7 +9,9 @@
 
 <h2>Login</h2>
 
-<form th:method="post" th:action="">
+<form th:method="post" th:action="@{/auth/login}">
+
+	<p th:if="${wronglogin}" th:text="${wronglogin}" style="color:red;"></p>
 
 	<label>Username</label><br>
 	<input type="text" name="username" required>
@@ -26,7 +28,7 @@
 <hr>
 
 <p>Don’t have an account?</p>
-<a th:href="/signup">Create one</a>
+<a th:href="@{/shootingstar/signup}">Create one</a>
 
 </body>
 </html>
