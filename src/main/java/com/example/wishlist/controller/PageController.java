@@ -8,11 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/shootingstar")
 public class PageController {
-    private UserService service;
-
-    public PageController (UserService service){
-        this.service = service;
-    }
 
     @GetMapping("/")
     public String homepage(){
