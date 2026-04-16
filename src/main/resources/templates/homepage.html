@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>Title</title>
+	<title>Shooting Star</title>
 </head>
+
 <body>
+
+<h1>Welcome to Shooting Star</h1>
+<nav>
+	<a th:href="/signup">
+		<button>Sign Up</button>
+	</a>
+</nav>
+<p>Plan your wishlists</p>
+
+<hr>
+
+<div>
+	<h3>Make a Wish</h3>
+
+	<a th:href="/login">
+		<button>Login</button>
+	</a>
+</div>
 
 </body>
 </html>

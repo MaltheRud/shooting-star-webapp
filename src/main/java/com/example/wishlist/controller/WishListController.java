@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/shootingstar")
+@RequestMapping("/shootingstar/wishlist")
 public class WishListController {
     private final WishListService service;
 
