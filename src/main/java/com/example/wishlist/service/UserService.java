@@ -35,11 +35,13 @@ public class UserService {
      * @return User
      */
     public User userLogin(String username, String password){
-        try {
-            return userRepository.userLogin(username, password);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Username and Password");
+        User user = userRepository.userLogin(username, password);
+
+        if (user == null){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username/password");
         }
+
+        return user;
     }
 
     /**

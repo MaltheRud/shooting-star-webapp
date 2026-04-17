@@ -1,6 +1,7 @@
 package com.example.wishlist.repository;
 
 import com.example.wishlist.model.User;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -102,6 +103,11 @@ public class UserRepository {
     public User userLogin(String username, String password){
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
 
-        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), username, password);
+        try{
+            return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), username, password);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+
     }
 }

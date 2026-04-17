@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 @Controller
 @RequestMapping("/auth")
@@ -31,7 +32,7 @@ public class AuthController {
 
         return "redirect:/shootingstar/dashboard";
 
-        } catch (Exception e){
+        } catch (ResponseStatusException e){
             model.addAttribute("wronglogin","Invalid Username/Password");
             return "login";
         }
