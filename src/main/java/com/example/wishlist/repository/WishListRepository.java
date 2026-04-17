@@ -14,9 +14,10 @@ import java.util.List;
 
 @Repository
 public class WishListRepository {
+
     private JdbcTemplate jdbcTemplate;
 
-    public WishListRepository(JdbcTemplate jdbcTemplate){
+    public WishListRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -26,7 +27,7 @@ public class WishListRepository {
     }
     public List<WishList> getUserWishlists(int userId) {
         String sql = "SELECT wishlist_id,user_id FROM wishlist WHERE user_id = ?";
-        return;
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(WishList.class), userId);
     }
     public WishList createWishlist(WishList wishList) {
         String sql = "INSERT INTO wishlist(title,user_id VALUES(?,?)";
@@ -44,6 +45,7 @@ public class WishListRepository {
         if (keyHolder.getKey() != null) {
             wishList.setWishlistID(keyHolder.getKey().intValue());
         }
+        return wishList;
 )
     }
 

@@ -41,6 +41,10 @@ public class WishListService {
     public void deleteWishlist(int userId, int wishlistId) {
         wishListRepository.deleteWishlist(userId, wishlistId);
     }
-
+    public boolean existsById(int userId) {
+        String sql = "SELECT COUNT(*) FROM users WHERE user_id = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, userId);
+        return count != null && count > 0;
+    }
 
 }
