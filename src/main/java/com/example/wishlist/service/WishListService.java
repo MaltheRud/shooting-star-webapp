@@ -1,50 +1,48 @@
 package com.example.wishlist.service;
 
-import com.example.wishlist.model.Wish;
 import com.example.wishlist.model.WishList;
 import com.example.wishlist.repository.WishListRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WishListService {
-    private WishListRepository wishListRepository;
 
-    @Autowired
-    public WishListService(WishListRepository wishListRepository){
+    private final WishListRepository wishListRepository;
+
+    public WishListService(WishListRepository wishListRepository) {
         this.wishListRepository = wishListRepository;
     }
 
-    public List<Wish> getAllWishes(){
-        return wishListRepository.getAllWishes();
-    }
-
     public List<WishList> getUserWishlists(int userId) {
-        return wishListRepository.getUserWishlists(userId);
+        return wishListRepository.findWishlistByUserId();
     }
-    public WishList createWishlist(int userId, WishList wishList) {
+
+    public Optional<WishList> getWishlistForUser(int wishlistId, int userId) {
+        return wishListRepository.findWishlistByUserId();
+    }
+
+    public WishList createWishlist(int userId, String title) {
+        WishList wishList = new WishList();
+        wishList.setTitle(title);
         wishList.setUserId(userId);
-        return wishListRepository.createWishlist(wishList);
+        return wishListRepository.saveWishlist(wishList);
     }
 
-    public WishList getWishlist(int userId, int wishlistId) {
-        return wishListRepository.getWishlist(userId, wishlistId);
+    public boolean updateWishlist(int wishlistId, int userId, String newTitle) {
+        Optional<WishList> owned = getWishlistForUser(wishlistId, userId);
+        if (owned.isEmpty()) return false;
+        WishList wishList = owned.get();
+        wishList.setTitle(newTitle);
+        wishListRepository.update(wishList);
+        return true;
     }
 
-    public WishList updateWishlist(int userId, int wishlistId, WishList wishList) {
-        wishList.setUserId(userId);
-        return wishListRepository.updateWishlist(wishList);
+    public boolean deleteWishlist(int wishlistId, int userId) {
+        if (getWishlistForUser(wishlistId, userId).isEmpty()) return false;
+        wishListRepository.deleteById(wishlistId);
+        return true;
     }
-
-    public void deleteWishlist(int userId, int wishlistId) {
-        wishListRepository.deleteWishlist(userId, wishlistId);
-    }
-    public boolean existsById(int userId) {
-        String sql = "SELECT COUNT(*) FROM users WHERE user_id = ?";
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, userId);
-        return count != null && count > 0;
-    }
-
 }

@@ -4,7 +4,6 @@ import com.example.wishlist.model.Wish;
 import com.example.wishlist.repository.WishRepository;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,52 +11,48 @@ import java.util.Optional;
 public class WishService {
 
     private final WishRepository wishRepository;
+    private final WishListService wishListService;
 
-    public WishService(WishRepository wishRepository) {
+    public WishService(WishRepository wishRepository, WishListService wishListService) {
         this.wishRepository = wishRepository;
+        this.wishListService = wishListService;
     }
 
-    public List<Wish> getWishesByWishlistId(int wishlistId) {
-        return wishRepository.getWishesByWishlistId(wishlistId);
+    public List<Wish> getWishesForUserWishlist(int wishlistId, int userId) {
+        if (wishListService.getWishlistForUser(wishlistId, userId).isEmpty()) {
+            return List.of();
+        }
+        return wishRepository.findByWishlistId(wishlistId);
     }
 
-    public Optional<Wish> getWishById(int wishId) {
-        return wishRepository.getWishById(wishId);
+    public Optional<Wish> getWishForUser(int wishId, int userId) {
+        Optional<Wish> wish = wishRepository.findById(wishId);
+        if (wish.isEmpty()) return Optional.empty();
+        if (wishListService.getWishlistForUser(wish.get().getWishlistId(), userId).isEmpty()) {
+            return Optional.empty();
+        }
+        return wish;
     }
 
-    public Wish createWish(String wishTitle,
-                           BigDecimal price,
-                           String description,
-                           String url,
-                           int wishlistId) {
-        Wish wish = new Wish();
-        wish.setWishTitle(wishTitle);
-        wish.setPrice(price);
-        wish.setDescription(description);
-        wish.setUrl(url);
-        wish.setWishlistId(wishlistId);
-
-        return wishRepository.createWish(wish);
+    public Optional<Wish> createWish(Wish wish, int userId) {
+        if (wishListService.getWishlistForUser(wish.getWishlistId(), userId).isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(wishRepository.save(wish));
     }
 
-    public void updateWish(int wishId,
-                           String wishTitle,
-                           int price,
-                           String description,
-                           String url,
-                           int wishlistId) {
-        Wish wish = new Wish();
-        wish.setWishId(wishId);
-        wish.setWishTitle(wishTitle);
-        wish.setPrice(price);
-        wish.setDescription(description);
-        wish.setUrl(url);
-        wish.setWishlistId(wishlistId);
-
-        wishRepository.updateWish(wish);
+    public boolean updateWish(Wish wish, int userId) {
+        Optional<Wish> existing = getWishForUser(wish.getWishId(), userId);
+        if (existing.isEmpty()) return false;
+        // Preserve wishlistId — don't let update reassign a wish to another list.
+        wish.setWishlistId(existing.get().getWishlistId());
+        wishRepository.update(wish);
+        return true;
     }
 
-    public void deleteWish(int wishId) {
-        wishRepository.deleteWish(wishId);
+    public boolean deleteWish(int wishId, int userId) {
+        if (getWishForUser(wishId, userId).isEmpty()) return false;
+        wishRepository.deleteById(wishId);
+        return true;
     }
 }

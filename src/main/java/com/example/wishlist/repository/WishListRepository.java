@@ -20,18 +20,15 @@ public class WishListRepository {
     public WishListRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-    // Show all users wishlists
-    public List<WishList> getUserWishlists(int userId) {
+    // Finder
+    public List<WishList> findWishlistByUserId(int userId) {
         String sql = "SELECT wishlist_id,user_id FROM wishlist WHERE user_id = ?";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(WishList.class), userId);
     }
 
+    // gemmer
 
-    public List<Wish>getAllWishes(){
-        String sql = "SELECT * FROM wish";
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Wish.class));
-    }
-    public WishList createWishlist(WishList wishList) {
+    public WishList saveWishlist(WishList wishList) {
         String sql = "INSERT INTO wishlist(title,user_id VALUES(?,?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -50,46 +47,15 @@ public class WishListRepository {
         return wishList;
 
     }
-
-    public WishList getWishlist(int userId, int wishlistId) {
-        String sql = "DELETE FROM wishlist WHERE wishlist_id = ? AND user_id = ?";
-        jdbcTemplate.update(sql,wishlistId,userId);
-        return SOMETHING.HTML;
+//retter
+    public void update(WishList wishList){
+    String sql = "UPDATE wishlist SET title = ? Where wishlist_id = ?";
+    jdbcTemplate.update(sql, wishList.getTitle(), wishList.getWishlistID());
     }
+    public void deleteById(int wishlistId) {
+        String  sql = "DELETE FROM wishlist WHERE wishlist_id = ?";
+        jdbcTemplate.update(sql, wishlistId);
 
-    public void deleteWishlist(int userId, int wishlistId) {
-        String sql = "DELETE FROM wishlist WHERE wishlist_id = ? AND user_id = ?";
-        jdbcTemplate.update(sql,wishlistId,userId);
-    }
-    public List<Wish> getWishesByWishlistId(int wishlistId) {
-        String sql = """
-                SELECT wish_id,
-                       wish_title,
-                       price,
-                       description,
-                       url,
-                       wishlist_id
-                FROM wish
-                WHERE wishlist_id = ?
-                ORDER BY wish_id
-                """;
-
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Wish.class), wishlistId);
-
-    }
-    public WishList getWishlistById(int wishlistId) {
-        String sql = """
-                SELECT wishlist_id,
-                       title,
-                       user_id
-                FROM wishlist
-                WHERE wishlist_id = ?
-                """;
-
-        List<WishList> result = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(WishList.class), wishlistId);
-        return result.stream().findFirst();
     }
 }
-
-
 
