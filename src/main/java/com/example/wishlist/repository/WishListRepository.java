@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class WishListRepository {
@@ -22,14 +23,24 @@ public class WishListRepository {
     }
     // Finder
     public List<WishList> findWishlistByUserId(int userId) {
-        String sql = "SELECT wishlist_id,user_id FROM wishlist WHERE user_id = ?";
+        String sql = "SELECT wishlist_id, user_id FROM wishlist WHERE user_id = ?";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(WishList.class), userId);
     }
 
+    public Optional<WishList> getWishlistForUser(int wishlistId, int userId) {
+        return this.findById(wishlistId)
+                .filter(wl -> wl.getUserId() == userId);
+    }
+    public Optional<WishList> findById(int wishlistId) {
+        String sql = "SELECT wishlist_id, title, user_id FROM wishlist WHERE wishlist_id = ?";
+        List<WishList> results = jdbcTemplate.query(
+                sql, new BeanPropertyRowMapper<>(WishList.class), wishlistId);
+        return results.stream().findFirst();
+    }
     // gemmer
 
     public WishList saveWishlist(WishList wishList) {
-        String sql = "INSERT INTO wishlist(title,user_id VALUES(?,?)";
+        String sql = "INSERT INTO wishlist(title, user_id VALUES(?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 

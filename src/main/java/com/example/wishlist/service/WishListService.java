@@ -17,11 +17,11 @@ public class WishListService {
     }
 
     public List<WishList> getUserWishlists(int userId) {
-        return wishListRepository.findWishlistByUserId();
+        return wishListRepository.findWishlistByUserId(userId);
     }
 
     public Optional<WishList> getWishlistForUser(int wishlistId, int userId) {
-        return wishListRepository.findWishlistByUserId();
+        return wishListRepository.getWishlistForUser(wishlistId,userId);
     }
 
     public WishList createWishlist(int userId, String title) {
