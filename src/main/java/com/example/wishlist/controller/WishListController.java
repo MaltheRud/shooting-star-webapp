@@ -3,6 +3,7 @@ package com.example.wishlist.controller;
 import com.example.wishlist.model.Wish;
 import com.example.wishlist.model.WishList;
 import com.example.wishlist.service.WishListService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,5 +45,22 @@ public class WishListController {
     public ResponseEntity<List<Wish>> getAllWishes(){
         List<Wish> wishes = wishListService.getAllWishes();
         return new ResponseEntity<>(wishes, HttpStatus.OK);
-    }}
+    }
+@PostMapping("/{wishlistId}/update")
+    public String updateWishlist(@PathVariable int wishlistId, @RequestParam String title, HttpSession session) {
+    Integer userId = (Integer) session.getAttribute("userId");
+    if (userId == null) {
+        return "redirect:/login";
+    }
+    WishList wishList = wishListService.getWishlist(userId, wishlistId);
+    if (wishList == null) {
+        return "redirect:/wishlists";
+    }
+
+    wishList.setTitle(title);
+    wishListService.updateWishlist(userId, wishlistId, wishList);
+    return "redirect:/wishlists/" + wishlistId;
+}}
+
+
 
