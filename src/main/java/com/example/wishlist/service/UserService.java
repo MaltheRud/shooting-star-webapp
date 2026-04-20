@@ -21,7 +21,27 @@ public class UserService {
      * @return row affected ('1' for success, '0' for no changes)
      */
     public int createUser(User user){
-        return userRepository.createUser(user);
+        int result =  userRepository.createUser(user);
+
+        if (result == 0){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User Already Exists");
+        } return result;
+    }
+
+    /**
+     * Login check
+     * @param username of user
+     * @param password of user
+     * @return User
+     */
+    public User userLogin(String username, String password){
+        User user = userRepository.userLogin(username, password);
+
+        if (user == null){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username/password");
+        }
+
+        return user;
     }
 
     /**
