@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/wishlists/{wishlistId}/wishes")
+@RequestMapping("/wishes")
 public class WishController {
 
     private final WishService wishService;
@@ -20,79 +20,98 @@ public class WishController {
         this.wishService = wishService;
     }
 
-    @PostMapping
+    // VIEW create form page
+    @GetMapping("/create")
+    public String showCreateForm(@PathVariable int wishlistId,
+                                 HttpSession session,
+                                 Model model) {
+
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/login";
+        }
+
+        Wish wish = new Wish();
+        wish.setWishlistId(wishlistId);
+
+        model.addAttribute("wish", wish);
+        return "wish-create";
+    }
+
+    // CREATE
+    @PostMapping("/create")
     public String createWish(@PathVariable int wishlistId,
-                             @RequestParam String wishTitle,
-                             @RequestParam(required = false) Double price,
-                             @RequestParam(required = false) String description,
-                             @RequestParam(required = false) String url,
-                             @RequestParam(required = false) String imageUrl,
+                             @ModelAttribute Wish wish,
                              HttpSession session) {
+
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) return "redirect:/login";
 
-        Wish wish = new Wish();
-        wish.setWishTitle(wishTitle);
-        wish.setPrice(price);
-        wish.setDescription(description);
-        wish.setUrl(url);
-        wish.setImageUrl(imageUrl);
         wish.setWishlistId(wishlistId);
 
-        wishService.createWish(wish, userId);
+        wishService.createWish(wish);
+
         return "redirect:/wishlists/" + wishlistId;
     }
 
+    // EDIT FORM
     @GetMapping("/{wishId}/edit")
-    public String showEditForm(@PathVariable int wishlistId,
-                               @PathVariable int wishId,
+    public String showEditForm(@PathVariable int wishId,
+                               @PathVariable int wishlistId,
                                HttpSession session,
                                Model model) {
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) return "redirect:/login";
 
-        Optional<Wish> wish = wishService.getWishForUser(wishId, userId);
-        if (wish.isEmpty() || wish.get().getWishlistId() != wishlistId) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
+        Wish wish = wishService.getWish(wishId, userId);
+
+        if (wish == null) {
             return "redirect:/wishlists/" + wishlistId;
         }
 
-        model.addAttribute("wish", wish.get());
-        model.addAttribute("wishlistId", wishlistId);
+        model.addAttribute("wish", wish);
         return "wish-edit";
     }
 
+    // UPDATE
     @PostMapping("/{wishId}/update")
     public String updateWish(@PathVariable int wishlistId,
                              @PathVariable int wishId,
-                             @RequestParam String wishTitle,
-                             @RequestParam(required = false) double price,
-                             @RequestParam(required = false) String description,
-                             @RequestParam(required = false) String url,
-                             @RequestParam(required = false) String imageUrl,
+                             @ModelAttribute Wish wish,
                              HttpSession session) {
+
         Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) return "redirect:/login";
+        if (userId == null)
+        {
+            return "redirect:/login";
+        }
 
-        Wish wish = new Wish();
         wish.setWishId(wishId);
-        wish.setWishTitle(wishTitle);
-        wish.setPrice(price);
-        wish.setDescription(description);
-        wish.setUrl(url);
-        wish.setImageUrl(imageUrl);
 
-        wishService.updateWish(wish, userId);
+        boolean success = wishService.updateWish(wish, userId);
+
+        if (!success) {
+            return "redirect:/wishlists/" + wishlistId;
+        }
+
         return "redirect:/wishlists/" + wishlistId;
     }
 
+    // DELETE
     @PostMapping("/{wishId}/delete")
     public String deleteWish(@PathVariable int wishlistId,
                              @PathVariable int wishId,
                              HttpSession session) {
+
         Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) return "redirect:/login";
+        if (userId == null){
+            return "redirect:/login";
+        }
 
         wishService.deleteWish(wishId, userId);
+
         return "redirect:/wishlists/" + wishlistId;
     }
 }

@@ -32,6 +32,17 @@ public class WishRepository {
         return jdbcTemplate.query(sql, wishRowMapper, wishlistId);
     }
 
+    public Wish findByIdAndUser(int wishId, int userId) {
+        String sql = """
+        SELECT w.wish_id, w.wish_title, w.price, w.description, w.url, w.image_url, w.wishlist_id
+        FROM wish w
+        JOIN wishlist wl ON wl.wishlist_id = w.wishlist_id
+        WHERE w.wish_id = ? AND wl.user_id = ?
+        """;
+
+        return jdbcTemplate.queryForObject(sql, wishRowMapper, wishId, userId);
+    }
+
     public Wish save(Wish wish) {
         String sql = """
                 INSERT INTO wish (wish_title, price, description, url, image_url, wishlist_id)

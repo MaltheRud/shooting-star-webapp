@@ -51,18 +51,28 @@ public class WishListController {
     }
 
     @GetMapping("/{wishlistId}")
-    public String showWishlist(@PathVariable int wishlistId, HttpSession session, Model model) {
+    public String showWishlist(@PathVariable int wishlistId,
+                               HttpSession session,
+                               Model model) {
+
         Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) return "redirect:/shootingstar/login";
+        if (userId == null) {
+            System.out.println("No userId in session");
+            return "redirect:/wishlists/";
+        }
 
-        Optional<WishList> wishlist = wishListService.getWishlistForUser(wishlistId, userId);
-        if (wishlist.isEmpty()) return "redirect:/wishlists/";
+        System.out.println("wishlistId = " + wishlistId);
+        System.out.println("userId = " + userId);
 
-        List<Wish> wishes = wishService.getWishesForUserWishlist(wishlistId, userId);
-        model.addAttribute("wishlist", wishlist.get());
+        List<Wish> wishes = wishService.getWishes(wishlistId);
+
+        System.out.println("wishes size = " + (wishes != null ? wishes.size() : "null"));
+        System.out.println("wishes = " + wishes);
+
         model.addAttribute("wishes", wishes);
-        model.addAttribute("newWish", new Wish());
-        return "wishlist-homepage";
+        model.addAttribute("wishlistId", wishlistId);
+
+        return "view-wishes";
     }
 
     @GetMapping("/{wishlistId}/edit")

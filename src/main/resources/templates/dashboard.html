@@ -28,14 +28,14 @@
 	</li>
 
 	<li th:each="wl : ${wishlists}">
-		<a th:href="@{/wishlist/{id}(id=${wl.wishlistID})}"
+		<a th:href="@{/wishlists/{id}(id=${wl.wishlistId})}"
 		th:text="${wl.title}">Wishlist Title</a>
 
-		<a th:href="@{/wishlists/{id}/edit(id=${wl.wishlistID})}">
+		<a th:href="@{/wishlists/{id}/edit(id=${wl.wishlistId})}">
 			Rename
 		</a>
 
-		<form th:action="@{/wishlists/{id}/delete(id=${wl.wishlistID})}"
+		<form th:action="@{/wishlists/{id}/delete(id=${wl.wishlistId})}"
 		method="post" style="display: inline">
 			<button type="submit"
 			        th:data-name="${wl.title}"

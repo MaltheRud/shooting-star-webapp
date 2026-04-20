@@ -53,7 +53,7 @@ public class WishListRepository {
         }, keyHolder);
 
         if (keyHolder.getKey() != null) {
-            wishList.setWishlistID(keyHolder.getKey().intValue());
+            wishList.setWishlistId(keyHolder.getKey().intValue());
         }
         return wishList;
 
@@ -61,7 +61,7 @@ public class WishListRepository {
 //retter
     public void update(WishList wishList){
     String sql = "UPDATE wishlist SET title = ? Where wishlist_id = ?";
-    jdbcTemplate.update(sql, wishList.getTitle(), wishList.getWishlistID());
+    jdbcTemplate.update(sql, wishList.getTitle(), wishList.getWishlistId());
     }
     public void deleteById(int wishlistId) {
         String  sql = "DELETE FROM wishlist WHERE wishlist_id = ?";
