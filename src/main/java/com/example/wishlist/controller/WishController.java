@@ -25,7 +25,7 @@ public class WishController {
                                  Model model) {
 
         if (session.getAttribute("userId") == null) {
-            return "redirect:/shootingstar/login";
+            return "redirect:redirect:/shootingstar/";
         }
 
         Wish wish = new Wish();
@@ -42,7 +42,7 @@ public class WishController {
                              HttpSession session) {
 
         Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) return "redirect:/shootingstar/login";
+        if (userId == null) return "redirect:/shootingstar/";
 
         wish.setWishlistId(wishlistId);
 
@@ -60,7 +60,7 @@ public class WishController {
 
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) {
-            return "redirect:/shootingstar/login";
+            return "redirect:/shootingstar/";
         }
 
         Wish wish = wishService.getWish(wishId, userId);
@@ -83,7 +83,7 @@ public class WishController {
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null)
         {
-            return "redirect:/shootingstar/login";
+            return "redirect:/shootingstar/";
         }
 
         wish.setWishId(wishId);
@@ -101,7 +101,7 @@ public class WishController {
 
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null){
-            return "redirect:/shootingstar/login";
+            return "redirect:/shootingstar/";
         }
 
         wishService.deleteWish(wishId, userId);
