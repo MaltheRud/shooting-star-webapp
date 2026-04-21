@@ -17,7 +17,7 @@ import java.util.Optional;
 @Repository
 public class WishListRepository {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
     private final WishlistRowMapper wishlistRowMapper;
 
     public WishListRepository(JdbcTemplate jdbcTemplate) {
