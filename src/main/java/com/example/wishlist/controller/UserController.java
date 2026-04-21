@@ -5,7 +5,6 @@ import com.example.wishlist.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class UserController {
     @PostMapping("/create")
     public String createUser(@ModelAttribute User user){
         service.createUser(user);
-        return "redirect:/shootingstar/login";
+        return "redirect:/shootingstar/";
     }
 
     @GetMapping("/list")

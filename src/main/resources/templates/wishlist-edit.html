@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Edit Wishlist | Shooting Star</title>
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/wishlist-edit.css}">
+</head>
+<body>
+
+<nav class="main-nav">
+	<div class="nav-container">
+		<div class="nav-left">
+			<a th:href="@{/shootingstar/}" class="nav-logo">Shooting Star</a>
+			<a th:href="@{/wishlists/}" class="nav-link">Dashboard</a>
+		</div>
+
+		<form method="post" th:action="@{/auth/logout}" class="logout-form">
+			<button type="submit" class="logout-btn">Log Out</button>
+		</form>
+	</div>
+</nav>
+
+<header class="user-hero">
+	<h1>Edit Wishlist</h1>
+	<p class="subtitle">Changing your collection's name?</p>
+</header>
+
+<div class="notebook-page expanded-card">
+	<form th:action="@{/wishlists/{id}/update(id=${wishlist.wishlistId})}"
+	      th:object="${wishlist}"
+	      method="post"
+	      class="edit-form">
+
+		<div class="input-group">
+			<label>Wishlist Title</label>
+			<input type="text" th:field="*{title}" required maxlength="50" placeholder="Update title...">
+		</div>
+
+		<input type="hidden" th:field="*{wishlistId}">
+
+		<div class="form-actions">
+			<button type="submit" class="main-button">Save Changes</button>
+			<a th:href="@{/wishlists/}" class="cancel-link">Cancel</a>
+		</div>
+	</form>
+</div>
+
+</body>
+</html>

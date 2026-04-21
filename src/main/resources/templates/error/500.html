@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Supernova | 500 Error</title>
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/error/error-500.css}">
+</head>
+<body>
+
+<nav class="main-nav">
+	<div class="nav-container">
+		<div class="nav-left">
+			<a th:href="@{/shootingstar/home}" class="nav-logo">Shooting Star</a>
+			<a th:href="@{/shootingstar/dashboard}" class="nav-link">Dashboard</a>
+		</div>
+	</div>
+</nav>
+
+<div class="error-container">
+	<div class="shattered-star">✷</div>
+
+	<h1 class="error-code">500</h1>
+	<h2 class="error-title">The star exploded.</h2>
+	<p class="error-text">Something went wrong on our end. Please try again in a moment.</p>
+
+	<div class="action-area">
+		<a th:href="@{/wishlists/}" class="main-button">Back to the Dashboard</a>
+	</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+/* Home Page Specific Layout */
+
+nav.sketch-nav {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    display: flex;
+    gap: 12px;
+}
+
+.nav-tape {
+    text-decoration: none;
+    color: var(--ink-black);
+    padding: 8px 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: transparent;
+    border-radius: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.nav-tape:hover {
+    border-color: var(--ink-black);
+    background: var(--ink-black);
+    color: white;
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 3rem;
+    margin: 0;
+    letter-spacing: -2px;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.subtitle {
+    text-align: center;
+    font-weight: 300;
+    font-size: 1.1rem;
+    color: var(--ink-grey);
+    margin-top: 5px;
+}
+
+.action-area {
+    text-align: center;
+    margin-top: 50px;
+}

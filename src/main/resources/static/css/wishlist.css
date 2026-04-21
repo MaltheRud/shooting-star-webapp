@@ -1,0 +1,229 @@
+/* wishlist.css */
+
+/* Top Nav Bar */
+.main-nav {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--ink-black);
+    letter-spacing: -1px;
+}
+
+.nav-logo:hover {
+    opacity: 0.7;
+}
+
+/* Update your dashboard.css or wishlist.css with these snippets */
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* Space between Logo and Dashboard link */
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--ink-grey); /* Starts soft grey */
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--ink-black);
+}
+
+/* Optional: Add a little "active" dot or underline look */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--ink-black);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Adjust the logo a bit so it stands out from the link */
+.nav-logo {
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-right: 1px solid #eee; /* Vertical divider between Logo and Panel */
+    padding-right: 20px;
+}
+
+/* Fix for the Logout Form/Button */
+.logout-form {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.logout-btn {
+    /* Resetting button defaults */
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    line-height: normal;
+    display: inline-block;
+
+    /* Matching your nav-tape style */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: var(--ink-black);
+    color: white;
+    border-color: var(--ink-black);
+}
+
+.user-hero {
+    margin-top: 120px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Expanded Card Styling */
+.expanded-card {
+    width: 95%;
+    max-width: 900px;
+    padding: 40px;
+    margin-bottom: 100px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #ddd;
+}
+
+.back-link {
+    text-decoration: none;
+    color: var(--ink-grey);
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.back-link:hover { color: var(--ink-black); }
+
+/* The Grid */
+.wish-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+/* Individual Wish Cards */
+.wish-card {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 20px;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.wish-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.04);
+}
+
+.wish-content-link {
+    text-decoration: none;
+    color: inherit;
+    flex-grow: 1;
+}
+
+.wish-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    background: #f9f9f9;
+}
+
+.wish-title {
+    margin: 0 0 10px 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.wish-desc {
+    font-size: 0.9rem;
+    color: var(--ink-grey);
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.wish-price {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+/* Footer of the small card */
+.wish-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.blue-pen.small {
+    font-size: 0.8rem;
+    margin-right: 8px;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: #cc0000;
+    font-size: 0.8rem;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.delete-btn:hover { opacity: 1; text-decoration: underline; }
+
+.empty-state {
+    text-align: center;
+    padding: 60px 0;
+    color: var(--ink-grey);
+}

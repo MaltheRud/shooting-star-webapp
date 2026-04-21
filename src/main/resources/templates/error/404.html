@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Lost in Space | Shooting Star</title>
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/error/error-404.css}">
+</head>
+<body>
+
+<nav class="main-nav">
+	<div class="nav-container">
+		<div class="nav-left">
+			<a th:href="@{/shootingstar/}" class="nav-logo">Shooting Star</a>
+			<a th:href="@{/wishlists}" class="nav-link">Dashboard</a>
+		</div>
+	</div>
+</nav>
+
+<div class="error-container">
+	<div class="floating-star">✦</div>
+	<h1 class="error-code">404</h1>
+	<h2 class="error-title">This star has burned out.</h2>
+	<p class="error-text">The page you're looking for has drifted out of orbit or never existed in this constellation.</p>
+
+	<div class="action-area">
+		<a th:href="@{/wishlists/}" class="main-button">Return to Safety</a>
+	</div>
+</div>
+
+</body>
+</html>

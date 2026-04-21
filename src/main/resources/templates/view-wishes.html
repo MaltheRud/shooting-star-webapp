@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Wishlist | Shooting Star</title>
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/wishlist.css}">
+</head>
+
+<body>
+
+<nav class="main-nav">
+	<div class="nav-container">
+		<div class="nav-left">
+			<a th:href="@{/shootingstar/}" class="nav-logo">Shooting Star</a>
+			<a th:href="@{/wishlists/}" class="nav-link">Dashboard</a>
+		</div>
+
+		<form method="post" th:action="@{/auth/logout}" class="logout-form">
+			<button type="submit" class="nav-tape logout-btn">Log Out</button>
+		</form>
+	</div>
+</nav>
+
+<header class="user-hero">
+	<h1 th:text="${title!= null ? title : 'Wishlist'}">Wishlist</h1>
+	<p class="subtitle">Where your stars are gathered.</p>
+</header>
+
+<div class="notebook-page expanded-card">
+	<div class="card-header">
+		<a th:href="@{/wishlists/}" class="back-link">← Back to Dashboard</a>
+		<a th:href="@{/wishlists/{id}/wishes/create(id=${wishlistId})}" class="main-button">+ Make a Wish</a>
+	</div>
+
+	<div th:if="${#lists.isEmpty(wishes)}" class="empty-state">
+		<p>No wishes yet. <span><a th:href="@{/wishlists/{id}/wishes/create(id=${wishlistId})}" class="blue-pen">Catch your first star.</a></span></p>
+	</div>
+
+	<div class="wish-grid">
+		<div th:each="wish : ${wishes}" class="wish-card">
+
+			<a th:if="${wish.url != null}" th:href="${wish.url}" target="_blank" class="wish-content-link">
+
+				<img th:if="${wish.imageUrl != null}" th:src="${wish.imageUrl}" class="wish-image">
+
+				<h3 th:text="${wish.wishTitle}" class="wish-title"></h3>
+				<p th:text="${wish.description}" class="wish-desc"></p>
+
+				<p class="wish-price">
+					Price: <span th:text="${wish.price}">0.00</span>
+				</p>
+			</a>
+
+			<div class="wish-footer">
+				<div class="footer-links">
+<!--					<a th:if="${wish.url != null}" th:href="${wish.url}" target="_blank" class="blue-pen small" onclick="event.stopPropagation();">Open Link</a>-->
+					<a th:href="@{/wishlists/{wid}/wishes/{wishId}/edit(wid=${wishlistId}, wishId=${wish.wishId})}" class="blue-pen small">Edit</a>
+				</div>
+
+				<form th:action="@{/wishlists/{wid}/wishes/{wishId}/delete(wid=${wishlistId}, wishId=${wish.wishId})}" method="post">
+					<button type="submit" class="delete-btn" th:data-name="${wish.wishTitle}" onclick="return confirm('Really delete ' + this.getAttribute('data-name') + '?')">Delete</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
