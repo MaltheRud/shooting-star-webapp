@@ -30,6 +30,9 @@ public class WishService {
         if (wish.getUrl() != null && !wish.getUrl().startsWith("http")) {//HTTP inserter
             wish.setUrl("https://" + wish.getUrl());
         }
+        if (wish.getImageUrl() != null && !wish.getImageUrl().startsWith("http")) {//HTTP inserter
+            wish.setUrl("https://" + wish.getImageUrl());
+        }
         return wishRepository.save(wish);
     }
 
