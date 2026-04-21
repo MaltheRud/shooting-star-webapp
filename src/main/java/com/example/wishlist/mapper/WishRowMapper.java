@@ -10,7 +10,9 @@ public class WishRowMapper implements RowMapper<Wish> {
 
     @Override
     public Wish mapRow(ResultSet rs, int rowNum) throws SQLException {
+
         Wish wish = new Wish();
+
         wish.setWishId(rs.getInt("wish_id"));
         wish.setWishTitle(rs.getString("wish_title"));
         Double price = rs.getObject("price", Double.class);

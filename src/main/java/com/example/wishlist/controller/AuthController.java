@@ -28,7 +28,7 @@ public class AuthController {
             User user = service.userLogin(username, password);
             session.setAttribute("userId", user.getUserId());
             session.setAttribute("username", user.getUsername());
-            session.setMaxInactiveInterval(3*60);
+            session.setMaxInactiveInterval(10*60);
 
         return "redirect:/wishlists/";
 
