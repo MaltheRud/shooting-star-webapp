@@ -109,4 +109,9 @@ public class WishListController {
         wishListService.deleteWishlist(wishlistId, userId);
         return "redirect:/wishlists/";
     }
+
+    @GetMapping("/crash")
+    public String crashTest() {
+        throw new RuntimeException("Testing error 500 display");
+    }
 }
