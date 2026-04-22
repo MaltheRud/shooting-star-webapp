@@ -23,7 +23,7 @@ class UserServiceTest {
 
     @Test
     void createUser_returnsOne_whenInsertSucceeds() {
-        User user = new User("alice", "pw", "Alice Example", "alice@mail.com");
+        User user = new User("alice", "pw", "AliceExample", "alice@mail.com");
         when(userRepository.createUser(user)).thenReturn(1);
 
         int result = userService.createUser(user);
@@ -34,7 +34,7 @@ class UserServiceTest {
 
     @Test
     void createUser_throwsConflict_whenUserAlreadyExists() {
-        User user = new User("alice", "pw", "Alice Example", "alice@mail.com");
+        User user = new User("alice", "pw", "AliceExample", "alice@mail.com");
         when(userRepository.createUser(user)).thenReturn(0);
 
         ResponseStatusException ex = assertThrows(
